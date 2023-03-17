@@ -1,0 +1,23 @@
+version: "3"
+services:
+  app:
+    container_name: MaruGacha_app
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+  db:
+    container_name: MaruGacha_db
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    ports:
+      - "53306:3306"
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/my.cnf
+    env_file:
+      - docker/db/variables.env

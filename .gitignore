@@ -1,0 +1,8 @@
+.devcontainer
+csv
+
+docker/db/data
+docker/db/variables.env
+
+src/.vscode
+src/vendor
