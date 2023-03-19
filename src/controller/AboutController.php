@@ -4,6 +4,9 @@ class AboutController extends Controller
 {
     public function index()
     {
-        include __DIR__ . '/../views/about.php';
+        return $this->render([
+
+        ],'index');
     }
+
 }

@@ -8,7 +8,7 @@ class TopController extends Controller
         $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../config');
         $dotenv->load();
 
-        $test = "";
+        $results = [];
 
         $dbDatabase = $_ENV['DB_DATABASE'];
         $dbHost     = $_ENV['DB_HOST'];
@@ -36,6 +36,8 @@ class TopController extends Controller
             }
         }
 
-        include __DIR__ . '/../views/index.php';
+        return $this->render([
+            'results' => $results,
+        ],'index');
     }
 }
