@@ -19,7 +19,7 @@
         ◆Cookieについて<br>
     </div>
     <footer>
-        <a href="about.php">このサイトについて</a>
+        <a href="/about">このサイトについて</a>
     </footer>
 </body>
 

@@ -6,4 +6,4 @@ docker/db/variables.env
 
 src/.vscode
 src/vendor
-src/.env
+src/config
