@@ -11,15 +11,26 @@ class Application{
 
     public function run()
     {
-        $params = $this->router->resolve($this->getPathInfo());
-        $controller = $params['controller'];
-        $action = $params['action'];
-        $this->runAction($controller, $action);
+        try {
+
+            $params = $this->router->resolve($this->getPathInfo());
+            if (!$params) {
+                throw new  HttpNotFoundException();
+            }
+            $controller = $params['controller'];
+            $action = $params['action'];
+            $this->runAction($controller, $action);
+        } catch (HttpNotFoundException) {
+            $this->render404Page();
+        }
     }
 
     private function runAction($controllerName, $action)
     {
         $controllerClass = ucfirst($controllerName) . 'Controller';
+        if (!class_exists($controllerClass)) {
+            throw new HttpNotFoundException();
+        }
         $controller = new $controllerClass();
         $controller->run($action);
     }
@@ -35,5 +46,11 @@ class Application{
             '/' => ['controller' => 'top', 'action' => 'index'],
             '/about' => ['controller' => 'about', 'action' => 'index'],
         ];
+    }
+
+    private function render404Page()
+    {
+        header("https/1.0 404 Not Found");
+        echo '404 Page Not Found.';
     }
 }

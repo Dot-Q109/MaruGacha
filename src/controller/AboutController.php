@@ -1,13 +1,8 @@
 <?php
 
-class AboutController
+class AboutController extends Controller
 {
-    public function run($action)
-    {
-        $this->$action();
-    }
-
-    private function index()
+    public function index()
     {
         include __DIR__ . '/../views/about.php';
     }

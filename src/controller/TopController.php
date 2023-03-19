@@ -1,13 +1,8 @@
 <?php
 
-class TopController
+class TopController extends Controller
 {
-    public function run($action)
-    {
-        $this->$action();
-    }
-
-    private function index()
+    public function index()
     {
 
         $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../config');
