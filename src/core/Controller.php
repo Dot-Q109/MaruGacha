@@ -3,6 +3,13 @@
 class Controller
 {
     protected $actionName;
+    protected $databaseManager;
+
+    public function __construct($application)
+    {
+        $this->databaseManager = $application->getDatabaseManager();
+    }
+
     public function run($action)
     {
         $this->actionName = $action;

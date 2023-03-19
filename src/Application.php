@@ -2,13 +2,28 @@
 
 class Application{
 
-    private $router;
-    private $response;
+    protected $router;
+    protected $response;
+    protected $databaseManager;
+    protected $dotenv;
 
     public function __construct()
     {
+        $this->dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/config');
+        $this->dotenv->load();
+
         $this->router = new Router($this->registerRoutes());
         $this->response = new Response;
+        $this->databaseManager = new DatabaseManager();
+        $this->databaseManager = new DatabaseManager();
+        $this->databaseManager->connect(
+            [
+                'hostname' => $_ENV['DB_HOST'],
+                'username' => $_ENV['DB_USERNAME'],
+                'password' => $_ENV['DB_PASSWORD'],
+                'database' => $_ENV['DB_DATABASE'],
+            ]
+        );
     }
 
     public function run()
@@ -36,7 +51,7 @@ class Application{
             throw new HttpNotFoundException();
         }
 
-        $controller = new $controllerClass();
+        $controller = new $controllerClass($this);
         $content = $controller->run($action);
         $this->response->setContent($content);
     }
@@ -52,6 +67,11 @@ class Application{
             '/' => ['controller' => 'top', 'action' => 'index'],
             '/about' => ['controller' => 'about', 'action' => 'index'],
         ];
+    }
+
+    public function getDatabaseManager()
+    {
+        return $this->databaseManager;
     }
 
     private function render404Page()
