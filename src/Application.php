@@ -1,21 +1,53 @@
 <?php
 
-class Application{
-
+/**
+ * アプリケーションクラスです。
+ */
+class Application
+{
+    /**
+     * ルーターインスタンス
+     *
+     * @var Router
+     */
     protected $router;
+
+    /**
+     * レスポンスインスタンス
+     *
+     * @var Response
+     */
     protected $response;
+
+    /**
+     * データベースマネージャーインスタンス
+     *
+     * @var DatabaseManager
+     */
     protected $databaseManager;
+
+    /**
+     * Dotenvインスタンス
+     *
+     * @var Dotenv\Dotenv
+     */
     protected $dotenv;
 
+    /**
+     * コンストラクタ
+     */
     public function __construct()
     {
+        // .envファイルを読み込み、環境変数を設定する
         $this->dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/config');
         $this->dotenv->load();
 
+        // インスタンスの生成
         $this->router = new Router($this->registerRoutes());
-        $this->response = new Response;
+        $this->response = new Response();
         $this->databaseManager = new DatabaseManager();
-        $this->databaseManager = new DatabaseManager();
+
+        // データベースに接続
         $this->databaseManager->connect(
             [
                 'hostname' => $_ENV['DB_HOST'],
@@ -26,6 +58,14 @@ class Application{
         );
     }
 
+
+    /**
+     * HTTPリクエストを処理し、対応するアクションを呼び出します。
+     *
+     * @throws HttpNotFoundException パラメータが解決できなかった場合にスローされます。
+     *
+     * @return void
+     */
     public function run()
     {
         try {
@@ -44,6 +84,16 @@ class Application{
         $this->response->send();
     }
 
+    /**
+     * 指定されたコントローラの指定されたアクションを実行します。
+     *
+     * @param string $controllerName コントローラ名
+     * @param string $action アクション名
+     *
+     * @throws HttpNotFoundException コントローラクラスが存在しない場合にスローされます。
+     *
+     * @return void
+     */
     private function runAction($controllerName, $action)
     {
         $controllerClass = ucfirst($controllerName) . 'Controller';
@@ -56,11 +106,21 @@ class Application{
         $this->response->setContent($content);
     }
 
+    /**
+     * 現在のHTTPリクエストパスを取得します。
+     *
+     * @return string 現在のHTTPリクエストパス
+     */
     public function getPathInfo()
     {
         return $_SERVER['REQUEST_URI'];
     }
 
+    /**
+     * コントローラとアクションのルーティング定義を登録します。
+     *
+     * @return array<string, array<string, string>> ルーティング定義
+     */
     private function registerRoutes()
     {
         return [
@@ -69,11 +129,21 @@ class Application{
         ];
     }
 
+    /**
+     * データベースマネージャーインスタンスを取得します。
+     *
+     * @return DatabaseManager データベースマネージャーインスタンス
+     */
     public function getDatabaseManager()
     {
         return $this->databaseManager;
     }
 
+    /**
+     * 404エラーページをレンダリングします。
+     *
+     * @return void
+     */
     private function render404Page()
     {
         $this->response->setStatusCode(404, 'Not Found');

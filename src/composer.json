@@ -6,5 +6,10 @@
   },
   "require": {
     "vlucas/phpdotenv": "^5.5"
+  },
+  "scripts": {
+    "phpcs": "./vendor/bin/phpcs --standard=phpcs.xml",
+    "phpmd": "./vendor/bin/phpmd . text phpmd.xml --suffixes php --exclude vendor",
+    "phpstan": "./vendor/bin/phpstan analyse -c phpstan.neon"
   }
 }
