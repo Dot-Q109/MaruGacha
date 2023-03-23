@@ -37,6 +37,9 @@ class AutoLoader
 
     /**
      * ディレクトリを順番に検索し、引数で指定されたクラスファイルを読み込みます。
+     * この関数はregisterメソッドで呼び出しています。
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
      *
      * @param string $className 読み込むクラスファイル
      *

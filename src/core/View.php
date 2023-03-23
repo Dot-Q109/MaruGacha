@@ -26,18 +26,21 @@ class View
     /**
      * テンプレートファイルをレンダリングし、テンプレートを適用して返します。
      *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     *
      * @param string $path      テンプレートファイルのパス
      * @param array<mixed>  $variables テンプレートファイルに渡す変数
-     * @param string|false $layout テンプレートのレイアウトファイルのパス。falseを指定した場合はレイアウトを使用しません。
+     * @param string $layout テンプレートのレイアウトファイルのパス。
      *
      * @return string テンプレートを適用した結果の文字列
      */
-    public function render($path, $variables, $layout = false)
+    public function render($path, $variables, $layout)
     {
         extract($variables);
 
         ob_start();
         require $this->baseDir . '/' . $path  . '.php';
+        // $contentはレイアウトファイルで使用しています。
         $content =  ob_get_clean();
 
         ob_start();

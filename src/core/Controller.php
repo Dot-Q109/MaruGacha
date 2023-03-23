@@ -32,11 +32,11 @@ class Controller
     /**
      * アクションを実行します。
      *
-     * @param string $action アクション名
+     * @param  string $action  アクション名
      *
      * @throws HttpNotFoundException アクションが存在しない場合に例外をthrowします。
      *
-     * @return string レスポンスコンテンツ
+     * @return string $content レスポンスコンテンツ
      */
     public function run($action)
     {

@@ -1,53 +1,35 @@
 <?php
 
 /**
- * アプリケーションクラスです。
+ * アプリケーションクラス
+ *
+ * 処理実行におけるさまざまな初期設定を集約している。
+ *
  */
 class Application
 {
-    /**
-     * ルーターインスタンス
-     *
-     * @var Router
-     */
+    /* @var Router */
     protected $router;
 
-    /**
-     * レスポンスインスタンス
-     *
-     * @var Response
-     */
+    /* @var Response */
     protected $response;
 
-    /**
-     * データベースマネージャーインスタンス
-     *
-     * @var DatabaseManager
-     */
+    /* @var DatabaseManager */
     protected $databaseManager;
 
-    /**
-     * Dotenvインスタンス
-     *
-     * @var Dotenv\Dotenv
-     */
+    /* @var Dotenv\Dotenv */
     protected $dotenv;
 
-    /**
-     * コンストラクタ
-     */
     public function __construct()
     {
         // .envファイルを読み込み、環境変数を設定する
         $this->dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/config');
         $this->dotenv->load();
 
-        // インスタンスの生成
         $this->router = new Router($this->registerRoutes());
         $this->response = new Response();
         $this->databaseManager = new DatabaseManager();
 
-        // データベースに接続
         $this->databaseManager->connect(
             [
                 'hostname' => $_ENV['DB_HOST'],
@@ -60,9 +42,13 @@ class Application
 
 
     /**
-     * HTTPリクエストを処理し、対応するアクションを呼び出します。
+     * runメソッド
      *
-     * @throws HttpNotFoundException パラメータが解決できなかった場合にスローされます。
+     * HTTPリクエストパスに応じたルーティングを解決し、対応するアクションを実行します。
+     * ルーティングが解決できない場合、404ページを表示します。
+     * アクションの実行後、レスポンスを送信します。
+     *
+     * @throws HttpNotFoundException ルーティングが解決できない場合にスローします。
      *
      * @return void
      */
@@ -70,6 +56,7 @@ class Application
     {
         try {
             $params = $this->router->resolve($this->getPathInfo());
+
             if (!$params) {
                 throw new  HttpNotFoundException();
             }
@@ -77,6 +64,7 @@ class Application
             $controller = $params['controller'];
             $action = $params['action'];
             $this->runAction($controller, $action);
+
         } catch (HttpNotFoundException) {
             $this->render404Page();
         }
@@ -85,12 +73,12 @@ class Application
     }
 
     /**
-     * 指定されたコントローラの指定されたアクションを実行します。
+     * 指定されたコントローラのアクションを実行し、結果をレスポンスに設定します。
      *
-     * @param string $controllerName コントローラ名
-     * @param string $action アクション名
+     * @param string $controllerName
+     * @param string $action
      *
-     * @throws HttpNotFoundException コントローラクラスが存在しない場合にスローされます。
+     * @throws HttpNotFoundException コントローラクラスが存在しない場合にスローします。
      *
      * @return void
      */
@@ -107,9 +95,9 @@ class Application
     }
 
     /**
-     * 現在のHTTPリクエストパスを取得します。
+     * HTTPリクエストパスを取得します。
      *
-     * @return string 現在のHTTPリクエストパス
+     * @return string HTTPリクエストパス
      */
     public function getPathInfo()
     {
@@ -132,7 +120,7 @@ class Application
     /**
      * データベースマネージャーインスタンスを取得します。
      *
-     * @return DatabaseManager データベースマネージャーインスタンス
+     * @return DatabaseManager
      */
     public function getDatabaseManager()
     {
