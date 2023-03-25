@@ -5,15 +5,11 @@
  */
 class AutoLoader
 {
-    /**
-     * クラスファイルを検索するディレクトリを格納する配列
-     *
-     * @var array<string>
-     */
-    private $dirs;
+    /* @var array<string> */
+    private $classSearchDirs;
 
     /**
-     * オートロードを設定します。
+     * クラスをオートロードします。
      *
      * @return void
      */
@@ -24,15 +20,15 @@ class AutoLoader
 
 
     /**
-     * ディレクトリを追加します。
+     * クラスファイル検索ディレクトリを追加します。
      *
-     * @param string $dir 追加するディレクトリのパス
+     * @param string $classSearchDir
      *
      * @return void
      */
-    public function registerDir($dir)
+    public function registerDir($classSearchDir)
     {
-        $this->dirs[] = $dir;
+        $this->classSearchDirs[] = $classSearchDir;
     }
 
     /**
@@ -47,8 +43,8 @@ class AutoLoader
      */
     private function loadClass($className)
     {
-        foreach ($this->dirs as $dir) {
-            $file = $dir . '/' . $className . '.php';
+        foreach ($this->classSearchDirs as $classSearchDir) {
+            $file = $classSearchDir . '/' . $className . '.php';
             if (is_readable($file)) {
                 require $file;
                 return;
