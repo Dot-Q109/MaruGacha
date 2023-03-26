@@ -5,4 +5,5 @@
  */
 class HttpNotFoundException extends Exception
 {
+    //TODO: application.phpのrender404を移管するか検討。
 }

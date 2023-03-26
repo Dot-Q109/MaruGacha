@@ -6,34 +6,33 @@
 class Router
 {
     /* @var array<string, array<string, string>> */
-    // TODO: 変数名がちょっと抽象的かも？
-    private $routes;
+    private $routeMappings;
 
     /**
      * コンストラクタ
      *
-     * @param array<string, array<string, string>> $routes 登録するルート情報の配列
+     * @param array<string, array<string, string>> $routeMappings
      *
      * @return void
      */
-    public function __construct($routes)
+    public function __construct(array $routeMappings)
     {
-        $this->routes = $routes;
+        $this->routeMappings = $routeMappings;
     }
 
     /**
      * HTTPリクエストパスと登録済みのルート情報を照らし合わせて解決します。
      *
-     * //TODO: 変数名に改良の余地あり？
-     * @param string $pathInfo
+     * @param string $httpRequestPath
      *
-     * @return array{'controller': string, 'action': string}|false 登録されたルート情報のパターンに一致する処理を返します。一致するパターンがない場合はfalseを返します。
+     * @return array{'controller': string, 'action': string}|false
+     * 登録されたルート情報のパターンに一致する処理を返します。一致するパターンがない場合はfalseを返します。
      */
-    public function resolve($pathInfo)
+    public function resolve(string $httpRequestPath)
     {
-        foreach ($this->routes as $path => $pattern) {
-            if ($path === $pathInfo) {
-                return $pattern;
+        foreach ($this->routeMappings as $routePath => $controllerAction) {
+            if ($routePath === $httpRequestPath) {
+                return $controllerAction;
             }
         }
 

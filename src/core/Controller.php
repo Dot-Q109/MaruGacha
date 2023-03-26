@@ -5,18 +5,22 @@
  */
 class Controller
 {
+    /* @var const */
+    protected const CONTROLLER_SUFFIX_LENGTH = -10;
+
     /* @var string */
-    protected $actionName;
+    protected string $actionName;
 
     /* @var DatabaseManager */
-    protected $databaseManager;
+    protected DatabaseManager $databaseManager;
+
 
     /**
      * コンストラクタ
      *
      * @param Application $application
      */
-    public function __construct($application)
+    public function __construct(Application $application)
     {
         $this->databaseManager = $application->getDatabaseManager();
     }
@@ -30,14 +34,14 @@ class Controller
      *
      * @return string
      */
-    public function run($action)
+    public function run(string $action): string
     {
         $this->actionName = $action;
         if (!method_exists($this, $action)) {
             throw new HttpNotFoundException();
         }
-        $content = $this->$action();
-        return $content;
+        $renderedHtml = $this->$action();
+        return $renderedHtml;
     }
 
     /**
@@ -45,11 +49,11 @@ class Controller
      *
      * @param array<mixed> $variables
      * @param string|null $template
-     * @param string $layout
+     * @param string $layoutFileName
      *
      * @return string レンダリングされたHTMLコンテンツ
      */
-    protected function render($variables = [], $template = null, $layout = 'layout')
+    protected function render(array $variables = [], ?string $template = null, string $layoutFileName = 'layout'): string
     {
         $view = new View(__DIR__ . '/../views');
 
@@ -57,8 +61,8 @@ class Controller
             $template = $this->actionName;
         }
 
-        $controllerName = strtolower(substr(get_class($this), 0, -10));
-        $path = $controllerName . '/' . $template;
-        return $view->render($path, $variables, $layout);
+        $controllerName = strtolower(substr(get_class($this), 0, self::CONTROLLER_SUFFIX_LENGTH));
+        $viewFilePath = $controllerName . '/' . $template;
+        return $view->render($viewFilePath, $variables, $layoutFileName);
     }
 }

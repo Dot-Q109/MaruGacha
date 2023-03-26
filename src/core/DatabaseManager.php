@@ -6,19 +6,21 @@
 class DatabaseManager
 {
     /* @var PDO */
-    protected $dbh;
+    protected ?PDO $dbh = null;
 
     /* @var array<string, mixed> */
-    protected $models;
+    protected array $models = [];
 
     /**
      * MySQLに接続します。
-     * TODO: 変数名と関数名を変える。変数名はもっと具体的に、関数名はMySQLのみへの接続メソッドである旨を記載。
+     *
      * @param array<string, string> $params
+     *
+     * @throws PDOException 接続に失敗した場合にスローします。
      *
      * @return void
      */
-    public function connect($params)
+    public function connectToMySQL($params)
     {
         try {
             $dsn = "mysql:dbname={$params['database']};host={$params['hostname']};";
@@ -36,13 +38,20 @@ class DatabaseManager
      *
      * @param string $modelName
      *
-     * @return mixed インスタンス化されたモデル
+     * @throws InvalidArgumentException データベース接続が確立されていない場合にスローします。
+     *
+     * @return mixed
      */
-    public function get($modelName)
+    public function getModelInstance($modelName)
     {
-        $model = new $modelName($this->dbh);
-        $this->models[$modelName] = $model;
 
-        return $this->models[$modelName];
+        //TODO: mysql接続情報をコンストラクタで受け取るようにしたら例外処理は不要になる想定。
+        if ($this->dbh === null) {
+            throw new InvalidArgumentException('データベース接続が確立されていません。');
+        }
+
+            $this->models[$modelName] = new $modelName($this->dbh);
+            return $this->models[$modelName];
+
     }
 }

@@ -6,36 +6,36 @@
 class Response
 {
     /* @var string */
-    protected $content;
+    protected string $responseBody = '';
 
     /* @var int */
-    protected $statusCode;
+    protected int $statusCode = 200;
 
     /* @var string */
-    protected $statusText;
+    protected string $statusText = 'OK';
 
     /**
      * レスポンスを送信します。
      *
      * @return void
      */
-    public function send()
+    public function sendResponse()
     {
         header('HTTP/1.1 ' . $this->statusCode . ' ' . $this->statusText);
 
-        echo $this->content;
+        echo $this->responseBody;
     }
 
     /**
      * コンテンツ本文を設定します。
      *
-     * @param string $content
+     * @param string $responseBody
      *
      * @return void
      */
-    public function setContent($content)
+    public function setResponseBody(string $responseBody): void
     {
-        $this->content = $content;
+        $this->responseBody = $responseBody;
     }
 
     /**
@@ -46,7 +46,7 @@ class Response
      *
      * @return void
      */
-    public function setStatusCode($statusCode, $statusText)
+    public function setStatusCode(int $statusCode, string $statusText): void
     {
         $this->statusCode = $statusCode;
         $this->statusText = $statusText;

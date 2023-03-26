@@ -5,21 +5,17 @@
  */
 class View
 {
-    /**
-     * テンプレートファイルの格納先
-     *
-     * @var string
-     */
-    protected $baseDir;
+    /* @var string */
+    protected string $viewsDir;
 
     /**
      * コンストラクタ
      *
-     * @param string $baseDir /var/www/html/views
+     * @param string $viewsDir ビューファイルの格納ディレクトリ
      */
-    public function __construct($baseDir)
+    public function __construct(string $viewsDir)
     {
-        $this->baseDir = $baseDir;
+        $this->viewsDir = $viewsDir;
     }
 
     /**
@@ -27,26 +23,26 @@ class View
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      *
-     * //TODO: 変数名を変更する。
-     * @param string $path
+     * @param string $viewFilePath
      * @param array<mixed>  $variables
-     * @param string $layout
+     * @param string $layoutFileName
      *
      * @return string テンプレートを適用した結果の文字列
      */
-    public function render($path, $variables, $layout)
+    public function render(string $viewFilePath, array $variables, string $layoutFileName): string
     {
         extract($variables);
 
         ob_start();
-        require $this->baseDir . '/' . $path  . '.php';
-        // $contentはレイアウトファイルで使用しています。
-        $content =  ob_get_clean();
+        require $this->viewsDir . '/' . $viewFilePath  . '.php';
+        // $responseBody($layoutFileName)で使用されています。
+        // ob_start()およびob_get_clean()で、$responseBodyがレイアウトファイルにて展開されます。
+        $responseBody =  ob_get_clean();
 
         ob_start();
-        require $this->baseDir . '/' . $layout . '.php';
-        $layout = ob_get_clean();
+        require $this->viewsDir . '/' . $layoutFileName . '.php';
+        $renderedHtml = ob_get_clean();
 
-        return $layout;
+        return $renderedHtml;
     }
 }

@@ -6,7 +6,7 @@
 class AutoLoader
 {
     /* @var array<string> */
-    private $classSearchDirs;
+    private array $classSearchDirs = [];
 
     /**
      * クラスをオートロードします。
@@ -18,7 +18,6 @@ class AutoLoader
         spl_autoload_register([$this, 'loadClass']);
     }
 
-
     /**
      * クラスファイル検索ディレクトリを追加します。
      *
@@ -26,7 +25,7 @@ class AutoLoader
      *
      * @return void
      */
-    public function registerDir($classSearchDir)
+    public function registerDir(string $classSearchDir)
     {
         $this->classSearchDirs[] = $classSearchDir;
     }
@@ -41,7 +40,7 @@ class AutoLoader
      *
      * @return void
      */
-    private function loadClass($className)
+    private function loadClass(string $className)
     {
         foreach ($this->classSearchDirs as $classSearchDir) {
             $file = $classSearchDir . '/' . $className . '.php';

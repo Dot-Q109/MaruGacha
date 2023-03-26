@@ -29,7 +29,7 @@ class Application
         $this->response = new Response();
         $this->databaseManager = new DatabaseManager();
 
-        $this->databaseManager->connect(
+        $this->databaseManager->connectToMySQL(
             [
                 'hostname' => $_ENV['DB_HOST'],
                 'username' => $_ENV['DB_USERNAME'],
@@ -68,7 +68,7 @@ class Application
             $this->render404Page();
         }
 
-        $this->response->send();
+        $this->response->sendResponse();
     }
 
     /**
@@ -83,14 +83,14 @@ class Application
      */
     private function runAction($controllerName, $action)
     {
-        $controllerClass = ucfirst($controllerName) . 'Controller';
-        if (!class_exists($controllerClass)) {
+        $controllerClassName = ucfirst($controllerName) . 'Controller';
+        if (!class_exists($controllerClassName)) {
             throw new HttpNotFoundException();
         }
 
-        $controller = new $controllerClass($this);
-        $content = $controller->run($action);
-        $this->response->setContent($content);
+        $controller = new $controllerClassName($this);
+        $responseBody = $controller->run($action);
+        $this->response->setResponseBody($responseBody);
     }
 
     /**
@@ -105,6 +105,7 @@ class Application
 
     /**
      * コントローラとアクションのルーティング定義を登録します。
+     * TODO:定義を外部ファイルや設定ファイルに移管するか検討。
      *
      * @return array<string, array<string, string>> ルーティング定義
      */
@@ -134,6 +135,6 @@ class Application
     private function render404Page()
     {
         $this->response->setStatusCode(404, 'Not Found');
-        $this->response->setContent('404 Page Not Found.');
+        $this->response->setResponseBody('404 Page Not Found.');
     }
 }

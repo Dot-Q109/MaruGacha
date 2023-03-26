@@ -1,3 +1,3 @@
 <?php
 
-echo $content;
+echo $responseBody;

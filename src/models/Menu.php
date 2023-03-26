@@ -11,7 +11,7 @@ class Menu extends DatabaseModel
      *
      * @return array{'name':string} うどんの情報
      */
-    public function fetchAssocUdon()
+    public function fetchRandomUdon()
     {
         return $this->fetchAssoc('SELECT name FROM menus WHERE category_id = 1 ORDER BY RAND() LIMIT 1');
     }
@@ -21,7 +21,7 @@ class Menu extends DatabaseModel
      *
      * @return array{'name':string} 天ぷらの情報
      */
-    public function fetchAssocTempura()
+    public function fetchRandomTempura()
     {
         return $this->fetchAssoc('SELECT name FROM menus WHERE category_id = 2 ORDER BY RAND() LIMIT 1');
     }
