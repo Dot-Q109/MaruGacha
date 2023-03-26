@@ -1,29 +1,17 @@
 <?php
 
 /**
- * レスポンスを表すクラスです。
+ * HTTPレスポンスやコンテンツを管理します。
  */
 class Response
 {
-    /**
-     * レスポンスの本文
-     *
-     * @var string
-     */
+    /* @var string */
     protected $content;
 
-    /**
-     * レスポンスのステータスコード
-     *
-     * @var int
-     */
+    /* @var int */
     protected $statusCode;
 
-    /**
-     * レスポンスのステータステキスト
-     *
-     * @var string
-     */
+    /* @var string */
     protected $statusText;
 
     /**
@@ -39,9 +27,9 @@ class Response
     }
 
     /**
-     * レスポンスの本文を設定します。
+     * コンテンツ本文を設定します。
      *
-     * @param string $content レスポンスの本文
+     * @param string $content
      *
      * @return void
      */
@@ -51,10 +39,10 @@ class Response
     }
 
     /**
-     * レスポンスのステータスコードとステータステキストを設定します
+     * ステータスコードとステータステキストを設定します。
      *
-     * @param int $statusCode ステータスコード
-     * @param string $statusText ステータステキスト
+     * @param int $statusCode
+     * @param string $statusText
      *
      * @return void
      */

@@ -1,9 +1,7 @@
 <?php
 
 /**
- *
  * index.phpから自動的に読み込まれ、AutoLoaderを実行します。
- *
  */
 
 require 'core/AutoLoader.php';

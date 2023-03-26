@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Menusテーブルから、メニューをランダムに取得するクラスです。
+ * Menusテーブルからメニューをランダムに取得します。
  */
 class Menu extends DatabaseModel
 {
@@ -9,7 +9,7 @@ class Menu extends DatabaseModel
     /**
      * うどんをランダムに1品取得します。
      *
-     * @return array{'name':string} 取得したうどん名
+     * @return array{'name':string} うどんの情報
      */
     public function fetchAssocUdon()
     {
@@ -19,7 +19,7 @@ class Menu extends DatabaseModel
     /**
      * 天ぷらをランダムに1品取得します。
      *
-     * @return array{'name':string} 取得した天ぷら名
+     * @return array{'name':string} 天ぷらの情報
      */
     public function fetchAssocTempura()
     {

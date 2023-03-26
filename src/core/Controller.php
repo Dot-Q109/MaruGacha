@@ -5,24 +5,16 @@
  */
 class Controller
 {
-    /**
-     * アクション名
-     *
-     * @var string
-     */
+    /* @var string */
     protected $actionName;
 
-    /**
-     * データベースマネージャーインスタンス
-     *
-     * @var DatabaseManager
-     */
+    /* @var DatabaseManager */
     protected $databaseManager;
 
     /**
      * コンストラクタ
      *
-     * @param Application $application アプリケーションインスタンス
+     * @param Application $application
      */
     public function __construct($application)
     {
@@ -32,11 +24,11 @@ class Controller
     /**
      * アクションを実行します。
      *
-     * @param  string $action  アクション名
+     * @param string $action
      *
-     * @throws HttpNotFoundException アクションが存在しない場合に例外をthrowします。
+     * @throws HttpNotFoundException
      *
-     * @return string $content レスポンスコンテンツ
+     * @return string
      */
     public function run($action)
     {
@@ -55,7 +47,7 @@ class Controller
      * @param string|null $template
      * @param string $layout
      *
-     * @return string レンダリング結果
+     * @return string レンダリングされたHTMLコンテンツ
      */
     protected function render($variables = [], $template = null, $layout = 'layout')
     {

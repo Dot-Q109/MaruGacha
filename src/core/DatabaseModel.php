@@ -5,11 +5,7 @@
  */
 class DatabaseModel
 {
-    /**
-     * PDOインスタンス
-     *
-     * @var PDO
-     */
+    /* @var PDO */
     protected $dbh;
 
     /**
@@ -25,9 +21,9 @@ class DatabaseModel
     /**
      * SQLを実行し、結果を連想配列として取得します。
      *
-     * @param string $sql SQL文
+     * @param string $sql
      *
-     * @return array<string,string>|false SQLの実行結果
+     * @return array<string,string>|false SQLの実行結果、失敗した場合はfalse
      */
     public function fetchAssoc($sql)
     {

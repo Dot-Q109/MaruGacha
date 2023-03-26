@@ -1,15 +1,12 @@
 <?php
 
 /**
- * HTTPリクエストのパスを、適切なコントローラアクションに振り分けます。
+ * HTTPリクエストのパスを適切なコントローラーアクションにルーティングします。
  */
 class Router
 {
-    /**
-     * 登録されたルート情報を保持する配列
-     *
-     * @var array<string, array<string, string>>
-     */
+    /* @var array<string, array<string, string>> */
+    // TODO: 変数名がちょっと抽象的かも？
     private $routes;
 
     /**
@@ -25,9 +22,10 @@ class Router
     }
 
     /**
-     * HTTPリクエストのパスと登録済みのルート情報を名前解決する。
+     * HTTPリクエストパスと登録済みのルート情報を照らし合わせて解決します。
      *
-     * @param string $pathInfo HTTPリクエストのパス
+     * //TODO: 変数名に改良の余地あり？
+     * @param string $pathInfo
      *
      * @return array{'controller': string, 'action': string}|false 登録されたルート情報のパターンに一致する処理を返します。一致するパターンがない場合はfalseを返します。
      */

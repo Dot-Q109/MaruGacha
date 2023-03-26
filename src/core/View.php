@@ -1,8 +1,7 @@
 <?php
 
 /**
- * ビューを表すクラスです。指定されたパスにあるPHPファイルを読み込み、変数を渡すことができます。
- * テンプレート機能を提供し、変数をレンダリングされたビューに渡すことができます。
+ * ビューを管理します。
  */
 class View
 {
@@ -16,7 +15,7 @@ class View
     /**
      * コンストラクタ
      *
-     * @param string $baseDir テンプレートファイルの格納先
+     * @param string $baseDir /var/www/html/views
      */
     public function __construct($baseDir)
     {
@@ -24,13 +23,14 @@ class View
     }
 
     /**
-     * テンプレートファイルをレンダリングし、テンプレートを適用して返します。
+     * views配下のファイルを読み込み、HTMLをレンダリングします。
      *
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      *
-     * @param string $path      テンプレートファイルのパス
-     * @param array<mixed>  $variables テンプレートファイルに渡す変数
-     * @param string $layout テンプレートのレイアウトファイルのパス。
+     * //TODO: 変数名を変更する。
+     * @param string $path
+     * @param array<mixed>  $variables
+     * @param string $layout
      *
      * @return string テンプレートを適用した結果の文字列
      */

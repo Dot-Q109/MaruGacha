@@ -1,30 +1,20 @@
 <?php
 
 /**
- * Class DatabaseManager
- *
  * MySQLの接続とモデルの取得を行います。
  */
 class DatabaseManager
 {
-    /**
-     * PDOインスタンス
-     *
-     * @var PDO
-     */
+    /* @var PDO */
     protected $dbh;
 
-    /**
-     * モデルインスタンスを格納する配列
-     *
-     * @var array<string, mixed>
-     */
+    /* @var array<string, mixed> */
     protected $models;
 
     /**
      * MySQLに接続します。
-     *
-     * @param array<string, string> $params データベース接続情報
+     * TODO: 変数名と関数名を変える。変数名はもっと具体的に、関数名はMySQLのみへの接続メソッドである旨を記載。
+     * @param array<string, string> $params
      *
      * @return void
      */
@@ -44,9 +34,9 @@ class DatabaseManager
     /**
      * モデルのインスタンスを取得します。
      *
-     * @param string $modelName モデル名
+     * @param string $modelName
      *
-     * @return mixed モデルインスタンス
+     * @return mixed インスタンス化されたモデル
      */
     public function get($modelName)
     {
