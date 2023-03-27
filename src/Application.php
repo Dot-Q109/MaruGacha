@@ -27,9 +27,7 @@ class Application
 
         $this->router = new Router($this->registerRoutes());
         $this->response = new Response();
-        $this->databaseManager = new DatabaseManager();
-
-        $this->databaseManager->connectToMySQL(
+        $this->databaseManager = new DatabaseManager(
             [
                 'hostname' => $_ENV['DB_HOST'],
                 'username' => $_ENV['DB_USERNAME'],
@@ -37,6 +35,15 @@ class Application
                 'database' => $_ENV['DB_DATABASE'],
             ]
         );
+
+        // $this->databaseManager->connectToMySQL(
+        //     [
+        //         'hostname' => $_ENV['DB_HOST'],
+        //         'username' => $_ENV['DB_USERNAME'],
+        //         'password' => $_ENV['DB_PASSWORD'],
+        //         'database' => $_ENV['DB_DATABASE'],
+        //     ]
+        // );
     }
 
 

@@ -12,6 +12,8 @@ class DatabaseManager
     protected array $models = [];
 
     /**
+     * コンストラクタ
+     *
      * MySQLに接続します。
      *
      * @param array<string, string> $params
@@ -20,7 +22,7 @@ class DatabaseManager
      *
      * @return void
      */
-    public function connectToMySQL($params)
+    public function __construct(array $params)
     {
         try {
             $dsn = "mysql:dbname={$params['database']};host={$params['hostname']};";
@@ -28,6 +30,9 @@ class DatabaseManager
             $password = $params['password'];
 
             $this->dbh = new PDO($dsn, $user, $password);
+            // エラー発生時にPDOExceptionを投げるよう設定。
+            $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -38,20 +43,11 @@ class DatabaseManager
      *
      * @param string $modelName
      *
-     * @throws InvalidArgumentException データベース接続が確立されていない場合にスローします。
-     *
      * @return mixed
      */
     public function getModelInstance($modelName)
     {
-
-        //TODO: mysql接続情報をコンストラクタで受け取るようにしたら例外処理は不要になる想定。
-        if ($this->dbh === null) {
-            throw new InvalidArgumentException('データベース接続が確立されていません。');
-        }
-
             $this->models[$modelName] = new $modelName($this->dbh);
             return $this->models[$modelName];
-
     }
 }

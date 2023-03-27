@@ -13,7 +13,11 @@ class Menu extends DatabaseModel
      */
     public function fetchRandomUdon()
     {
-        return $this->fetchAssoc('SELECT name FROM menus WHERE category_id = 1 ORDER BY RAND() LIMIT 1');
+        try {
+            return $this->fetchAssoc('SELECT name FROM menus WHERE category_id = 1 ORDER BY RAND() LIMIT 1');
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -23,6 +27,10 @@ class Menu extends DatabaseModel
      */
     public function fetchRandomTempura()
     {
-        return $this->fetchAssoc('SELECT name FROM menus WHERE category_id = 2 ORDER BY RAND() LIMIT 1');
+        try {
+            return $this->fetchAssoc('SELECT name FROM a WHERE category_id = 2 ORDER BY RAND() LIMIT 1');
+        } catch (PDOException $e) {
+            throw $e;
+        }
     }
 }

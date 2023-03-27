@@ -29,6 +29,7 @@ class DatabaseModel
     public function fetchAssoc(string $sql)
     {
         $result = $this->dbh->query($sql);
+
         return $result->fetch(PDO::FETCH_ASSOC);
     }
 }
