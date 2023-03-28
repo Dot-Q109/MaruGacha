@@ -38,7 +38,6 @@ class Application
 
     }
 
-
     /**
      * runメソッド
      *
@@ -55,16 +54,14 @@ class Application
         try {
             $params = $this->router->resolve($this->getPathInfo());
 
-            if (!$params) {
-                throw new  HttpNotFoundException();
-            }
-
             $controller = $params['controller'];
             $action = $params['action'];
             $this->runAction($controller, $action);
 
-        } catch (HttpNotFoundException) {
-            $this->render404Page();
+        } catch (HttpNotFoundException $e) {
+            $this->render404Page($e);
+        } catch (PDOException | RuntimeException $e) {
+            $this->render500Page($e);
         }
 
         $this->response->sendResponse();
@@ -131,9 +128,21 @@ class Application
      *
      * @return void
      */
-    private function render404Page()
+    private function render404Page(Throwable $e)
     {
         $this->response->setStatusCode(404, 'Not Found');
-        $this->response->setResponseBody('404 Page Not Found.');
+        $this->response->setResponseBody('404 Page Not Found: ' . $e->getMessage());
     }
+
+    /**
+     * 500エラーページをレンダリングします。
+     *
+     * @return void
+     */
+    private function render500Page(Throwable $e)
+    {
+        $this->response->setStatusCode(500, 'Internal Server Error');
+        $this->response->setResponseBody('An error occurred: ' . $e->getMessage());
+    }
+
 }

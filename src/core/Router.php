@@ -36,6 +36,6 @@ class Router
             }
         }
 
-        return false;
+        throw new HttpNotFoundException('Route not found: ' . $httpRequestPath);
     }
 }

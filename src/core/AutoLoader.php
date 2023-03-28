@@ -49,5 +49,7 @@ class AutoLoader
                 return;
             }
         }
+
+        throw new RuntimeException("Class '{$className}' not found.");
     }
 }

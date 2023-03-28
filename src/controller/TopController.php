@@ -22,13 +22,9 @@ class TopController extends Controller
         $mode = $_POST['mode'] ?? null;
 
         if (isset($_POST['shuffle']) && in_array($mode, ['1', '2'], true)) {
-            try {
-                $results[] = $this->databaseManager->getModelInstance('Menu')->fetchRandomUdon();
-                if ($_POST['mode'] === self::MODE_TEMPURA) {
-                    $results[] = $this->databaseManager->getModelInstance('Menu')->fetchRandomTempura();
-                }
-            } catch (PDOException $e) {
-                echo $e->getMessage();
+            $results[] = $this->databaseManager->getModelInstance('Menu')->fetchRandomUdon();
+            if ($_POST['mode'] === self::MODE_TEMPURA) {
+                $results[] = $this->databaseManager->getModelInstance('Menu')->fetchRandomTempura();
             }
         }
 

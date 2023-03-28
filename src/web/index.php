@@ -11,6 +11,5 @@ require '../Application.php';
 require '../vendor/autoload.php';
 
 // アプリケーションの実行
-// TODO:エラー処理の設計を考え、アプリケーション内で発生した汎用的な例外をすべてcatchする
 $app = new Application();
 $app->run();
