@@ -22,7 +22,7 @@ class Response
     public function sendResponse()
     {
         header('HTTP/1.1 ' . $this->statusCode . ' ' . $this->statusText);
-
+        header('Content-Type: text/html; charset=UTF-8');
         echo $this->responseBody;
     }
 
