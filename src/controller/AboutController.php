@@ -13,6 +13,7 @@ class AboutController extends Controller
     public function index()
     {
         return $this->render([
+            'title' => 'このサイトについて'
         ], 'index');
     }
 }

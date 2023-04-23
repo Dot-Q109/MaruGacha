@@ -29,7 +29,16 @@ class DatabaseManager
             $user = $params['username'];
             $password = $params['password'];
 
-            $this->dbh = new PDO($dsn, $user, $password);
+            $this->dbh = new PDO(
+                $dsn,
+                $user,
+                $password,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::MYSQL_ATTR_MULTI_STATEMENTS => false,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                ]
+            );
             // エラー発生時にPDOExceptionを投げるよう設定。
             $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
